@@ -56,4 +56,27 @@ else if ($action == 'list_categories') {
     $categories = get_categories();
     include('category_list.php');
 }   
+else if ($action == 'delete_category') {
+    $category_id = filter_input(INPUT_POST, 'category_id',
+            FILTER_VALIDATE_INT);
+
+    if ($category_id == NULL || $category_id == FALSE) {
+        $error = "Missing or incorrect category id.";
+        include('../errors/error.php');
+    } else {
+        delete_category($category_id);
+        header("Location: .?action=list_categories");
+    }
+}
+else if ($action == 'add_category') {
+    $category_name = filter_input(INPUT_POST, 'category_name');
+
+    if ($category_name == NULL) {
+        $error = "Invalid category name.";
+        include('../errors/error.php');
+    } else {
+        add_category($category_name);
+        header("Location: .?action=list_categories");
+    }
+}
 ?>
